@@ -45,6 +45,29 @@ A Python-based command-line tool for communicating with the Masso Link controlle
 
 **⚠️ Important**: Do not run multiple instances of this client or use the official MASSO Link app simultaneously. The controller broadcasts responses on UDP port 65535, which all listening clients receive. Running multiple clients can cause ACK confusion, upload failures, and unpredictable behavior as clients may intercept each other's responses.
 
+## Getting Started
+
+**Prerequisites**: Python 3.6+ (no dependencies required)
+
+1. **Find your MASSO controller's IP address** (check controller network settings or router DHCP list)
+
+2. **Upload a file** (CLI mode - recommended)
+   ```bash
+   python masso_udp_client.py --host 192.168.1.32 --upload myfile.nc
+   ```
+
+3. **Watch a directory for auto-upload**
+   ```bash
+   python masso_udp_client.py --host 192.168.1.32 --watch /path/to/nc/files
+   ```
+
+4. **Monitor machine status**
+   ```bash
+   python masso_udp_client.py --host 192.168.1.32 --monitor
+   ```
+
+**Note**: Filenames must be 15 characters or less. For interactive mode, run without flags: `python masso_udp_client.py --host <IP>`
+
 ## Usage
 
 ### Interactive Mode (default)
