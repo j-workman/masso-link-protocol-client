@@ -49,9 +49,15 @@ A Python-based command-line tool for communicating with the Masso Link controlle
 
 **Prerequisites**: Python 3.6+ (no dependencies required)
 
-1. **Find your MASSO controller's IP address** (check controller network settings or router DHCP list)
+1. **Clone or download this repository**
+   ```bash
+   git clone https://github.com/andrewpc/masso-link-protocol-client.git
+   cd masso_client
+   ```
 
-2. **Upload a file** (CLI mode - recommended)
+2. **Find your MASSO controller's IP address** (check controller network settings or router DHCP list)
+
+3. **Upload a file** (CLI mode - recommended)
    ```bash
    python masso_udp_client.py --host 192.168.1.32 --upload myfile.nc
    ```
