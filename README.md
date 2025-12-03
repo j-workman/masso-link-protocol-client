@@ -5,7 +5,8 @@
 **Disclaimer**: This is an unofficial, experimental implementation of the MASSO Link protocol. This software is:
 - **NOT** supported by or affiliated with MASSO
 - **NOT** guaranteed to work with all MASSO controllers or firmware versions (currently tested with v5.09)
-- **ONLY** tested with controller in Lathe mode - may not work or need changes for Mill/Router modes
+- **ONLY** tested with controller in Lathe mode - may not work or need changes for Mill/Router modes - Please test on your non-Lathe controller!
+- **ONLY** tested on my own personal device so far - community testing needed
 - **NOT** suitable for production use or critical applications
 - Provided "AS IS" without any warranties or guarantees
 
@@ -41,6 +42,8 @@ This project was created to address limitations in the official MASSO Link softw
 ---
 
 A Python-based command-line tool for communicating with the Masso Link controller protocol.
+
+**⚠️ Important**: Do not run multiple instances of this client or use the official MASSO Link app simultaneously. The controller broadcasts responses on UDP port 65535, which all listening clients receive. Running multiple clients can cause ACK confusion, upload failures, and unpredictable behavior as clients may intercept each other's responses.
 
 ## Usage
 

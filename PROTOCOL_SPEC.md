@@ -117,6 +117,9 @@ print(f"Controller Serial: {serial}")
 
 ## Status Packet Structure (270 bytes)
 
+> [!NOTE]
+> The following field mappings are speculative and still being discovered through reverse engineering and observation of packet changes during machine operation.
+
 Key fields:
 - Byte 5: State flags
   - 0x00: Idle
@@ -214,28 +217,3 @@ The controller always responds with its own data structure regardless of these f
 
 ---
 
-## Undiscovered Packet Types
-
-Unused type values likely represent additional functionality:
-
-**Control Commands (0x04-0x07, 0x09)**:
-- Start/stop/pause/resume operations
-- Emergency stop functions
-- Mode switching
-
-**Machine Control (0x0C-0x1F)**:
-- Axis jogging and movement
-- Spindle speed control
-- Coolant system control
-- Parameter configuration
-
-**System Operations (0x20+)**:
-- Homing sequences
-- Reset operations
-- Position queries
-- Error status requests
-
-**Investigation Methods**:
-- Systematic testing of unused type values with minimal payloads
-- Packet capture during operations with official MASSO Link software
-- Payload variation analysis to discover parameter mappings
