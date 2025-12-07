@@ -266,6 +266,12 @@ class MassoClient:
             filesize = os.path.getsize(filename)
             basename = os.path.basename(filename)
             
+            # Reject 0-byte files
+            if filesize == 0:
+                print(f"[-] Cannot upload empty file: {filename}")
+                print("[-] File has 0 bytes - please ensure the file contains data")
+                return False
+            
             # Determine the remote filename to use
             if remote_path:
                 remote_filename = remote_path
