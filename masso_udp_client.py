@@ -280,9 +280,9 @@ class MassoClient:
                 remote_filename = basename
                 print(f"[+] Uploading {basename} ({filesize} bytes)...")
             
-            # Check filename length (max 15 characters for 30-byte packet)
-            if len(remote_filename) > 15:
-                print(f"[-] Filename too long: {remote_filename} ({len(remote_filename)} chars, max 15)")
+            # Check filename length (max 255 characters for 30-byte packet)
+            if len(remote_filename) > 255:
+                print(f"[-] Filename too long: {remote_filename} ({len(remote_filename)} chars, max 255)")
                 print("[-] Try using a shorter filename")
                 return False
 
@@ -304,9 +304,13 @@ class MassoClient:
             payload.extend(remote_filename.encode('ascii'))
             payload.append(0x00)                     # Null terminator
 
-            # Pad to match capture length (30 bytes total including checksum)
-            # Payload should be 28 bytes before checksum
-            while len(payload) < 28:
+            # Calculate current raw payload size
+            raw_payload_len = len(payload) 
+
+            # Apply the "Masso Rule": Min 6 bytes padding, then align to 4-byte boundary
+            target_payload_len = ((raw_payload_len + 6 + 3) // 4) * 4
+
+            while len(payload) < target_payload_len:
                 payload.append(0x00)
 
             # Calculate and prepend checksum
@@ -865,15 +869,15 @@ class MassoClient:
                         date_prefix = datetime.now().strftime('%m%d-')
                         name, ext = os.path.splitext(basename)
                         prefixed_filename = f"{date_prefix}{name}{ext}"
-                        # Check if prefixed filename fits within 15 char limit
-                        if len(prefixed_filename) <= 15:
+                        # Check if prefixed filename fits within 255 char limit
+                        if len(prefixed_filename) <= 255:
                             remote_filename = prefixed_filename
                         else:
-                            print(f"[-] Date prefix would make filename too long ({len(prefixed_filename)} chars, max 15)")
+                            print(f"[-] Date prefix would make filename too long ({len(prefixed_filename)} chars, max 255)")
                             print(f"    Using original filename: {basename}")
                     
-                    if len(remote_filename) > 15:
-                        print(f"[-] Skipping {remote_filename} - filename too long ({len(remote_filename)} chars, max 15)")
+                    if len(remote_filename) > 255:
+                        print(f"[-] Skipping {remote_filename} - filename too long ({len(remote_filename)} chars, max 255)")
                         # Add to state to prevent repeated checks
                         uploaded_files[file_id] = {
                             'uploaded_at': time.time(),
@@ -1101,7 +1105,7 @@ def interactive_mode(host, debug=False):
             cmd = input("\nmasso> ").strip() # Don't lower() to preserve filename case
             cmd_lower = cmd.lower()
             
-            if cmd_lower == 'quit':
+            if cmd_lower == 'quit' or cmd_lower == 'exit' or cmd_lower == 'stop' or cmd_lower == 'close':
                 break
             elif cmd_lower == 'connect':
                 client.connect()
