@@ -62,7 +62,7 @@ This document describes the MASSO controller UDP protocol as implemented in `mas
   - File Size: 4 bytes (little-endian)
   - Unknown: 3 bytes `0x00 0x00 0x01`
   - Backslash + Null: `0x5c 0x00`
-  - Filename: ASCII string, null-terminated (max 15 characters)
+  - Filename: ASCII string, null-terminated (max 255 characters)
   - Padding: Zeros to 28 bytes payload
 - **Response**: 10 bytes
 
@@ -163,7 +163,7 @@ CRC16-CCITT algorithm:
 
 ## Filename Restrictions
 
-- Maximum length: 15 characters
+- Maximum length: 255 characters
 - ASCII encoding only
 - Subdirectories: Use backslash `\` separator
   - Example: `MASSO\file.nc` or `\MASSO\file.nc`
@@ -174,7 +174,7 @@ CRC16-CCITT algorithm:
 
 - Upload packets are retried up to 3 times
 - Timeout for ACK response: 2.0 seconds
-- Filename validation prevents uploads of files with names > 15 characters
+- Filename validation prevents uploads of files with names > 255 characters
 
 ## Implementation Notes
 

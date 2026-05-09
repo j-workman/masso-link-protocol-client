@@ -280,7 +280,7 @@ class MassoClient:
                 remote_filename = basename
                 print(f"[+] Uploading {basename} ({filesize} bytes)...")
             
-            # Check filename length (max 255 characters for 30-byte packet)
+            # Check filename length (max 255)
             if len(remote_filename) > 255:
                 print(f"[-] Filename too long: {remote_filename} ({len(remote_filename)} chars, max 255)")
                 print("[-] Try using a shorter filename")
